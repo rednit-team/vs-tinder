@@ -1,15 +1,14 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import { SidebarProvider } from "./SidebarProvider";
+
 export function activate(context: vscode.ExtensionContext) {
-	console.log('Congratulations, your extension "vstinder" is now active!');
-
-	let disposable = vscode.commands.registerCommand('vstinder.helloWorld', () => {
-
-		vscode.window.showInformationMessage('Hello World from VSTinder!');
-	});
-
-	context.subscriptions.push(disposable);
+  const sidebarProvider = new SidebarProvider(context.extensionUri);
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      "vstinder-sidebar",
+      sidebarProvider
+    )
+  );
 }
 
 export function deactivate() { }
